@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm = init_chat_model("openai:gpt-4o")
-
 
 class ActivityGuidance(BaseModel):
     intention: str
