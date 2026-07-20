@@ -84,9 +84,9 @@ BREATHING_SOUNDS = {
 # =========================================================
 
 BACKGROUND_VOLUME = {
-    "birds": -18,
-    "ocean": -15,
-    "singing_bowl": -20,
+    "birds": -25,
+    "ocean": -25,
+    "singing_bowl": -21,
 }
 
 
