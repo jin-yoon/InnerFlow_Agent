@@ -317,18 +317,31 @@ st.markdown(
         box-shadow: 0 0 0 0.2rem rgba(111, 143, 120, 0.18);
     }
 
-    .stTextInput input,
+    /* Text input */
+    .stTextInput input {
+        background: #FFFFFF !important;
+        color: #294332 !important;
+        border: 1px solid #DCE8DE !important;
+        border-radius: 18px !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* Text area */
     .stTextArea textarea {
-        border-radius: 16px;
-        border: 1px solid #dde7db;
-        background: rgba(255, 255, 255, 0.94);
-        color: var(--text);
+        background: #FFFFFF !important;
+        color: #294332 !important;
+        border: 1px solid #DCE8DE !important;
+        border-radius: 18px !important;
+        box-shadow: none !important;
+        outline: none !important;
     }
 
     .stTextInput input:focus,
     .stTextArea textarea:focus {
-        border-color: #a5bca5;
-        box-shadow: 0 0 0 0.2rem rgba(111, 143, 120, 0.14);
+        border: 1.5px solid #6C8B74 !important;
+        box-shadow: 0 0 0 2px rgba(108, 139, 116, 0.12) !important;
+        outline: none !important;
     }
 
     div[data-testid="stExpander"] {
@@ -374,6 +387,45 @@ st.markdown(
         .recommendation-reason {
             max-width: 100%;
         }
+    }
+    /* Yoga expander 전체 박스 */
+    [data-testid="stExpander"] {
+        background-color: #FFFFFF !important;
+        border: 1px solid #DCE8DE !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        box-shadow: none !important;
+    }
+
+    /* Expander 제목 영역 */
+    [data-testid="stExpander"] summary {
+        background-color: #FFFFFF !important;
+        color: #294332 !important;
+        border-radius: 18px !important;
+    }
+
+    /* 펼쳐진 expander 제목 영역 */
+    [data-testid="stExpander"] details[open] summary {
+        background-color: #EDF5EE !important;
+        color: #294332 !important;
+    }
+
+    /* 제목 글자 */
+    [data-testid="stExpander"] summary p {
+        color: #294332 !important;
+        font-weight: 600 !important;
+    }
+
+    /* 왼쪽 화살표 아이콘 */
+    [data-testid="stExpander"] summary svg {
+        fill: #6C8B74 !important;
+        color: #6C8B74 !important;
+    }
+
+    /* 펼쳐진 본문 */
+    [data-testid="stExpander"] details > div {
+        background-color: #FFFFFF !important;
+        color: #294332 !important;
     }
     </style>
     """,
