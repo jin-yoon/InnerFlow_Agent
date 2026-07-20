@@ -1,37 +1,14 @@
-from langgraph.types import interrupt
 from agents.innerflow_states import InnerFlowState
 
 
-def activity_selection_node(
-    state: InnerFlowState,
-):
-    """
-    Pause the graph after Flow Guide recommendations
-    and wait for the user's activity selection.
-    """
+def activity_router(state: InnerFlowState) -> str:
+    selected_activity = state.get("selected_activity")
 
-    selected_activity = interrupt(
-        {
-            "type": "activity_selection",
-            "message": "어떤 활동을 함께해볼까요?",
-            "options": [
-                "yoga",
-                "breathing",
-                "meditation",
-            ],
-            "activity_plans": state.get(
-                "activity_plans",
-                [],
-            ),
-        }
-    )
+    if selected_activity in {
+        "yoga",
+        "breathing",
+        "meditation",
+    }:
+        return selected_activity
 
-    return {
-        "selected_activity": selected_activity,
-    }
-
-
-def activity_router(
-    state: InnerFlowState,
-):
-    return state["selected_activity"]
+    raise ValueError(f"지원하지 않는 활동입니다: {selected_activity}")

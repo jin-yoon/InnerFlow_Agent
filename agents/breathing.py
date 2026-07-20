@@ -360,7 +360,7 @@ def generate_tts_segment(
         voice="sage",
         input=text,
         instructions=BREATHING_AUDIO_INSTRUCTION,
-        # speed=0.9,
+        speed=0.9,
     )
 
     response.write_to_file(output_path)
