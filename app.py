@@ -317,33 +317,6 @@ st.markdown(
         box-shadow: 0 0 0 0.2rem rgba(111, 143, 120, 0.18);
     }
 
-    /* Text input */
-    .stTextInput input {
-        background: #FFFFFF !important;
-        color: #294332 !important;
-        border: 1px solid #DCE8DE !important;
-        border-radius: 18px !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* Text area */
-    .stTextArea textarea {
-        background: #FFFFFF !important;
-        color: #294332 !important;
-        border: 1px solid #DCE8DE !important;
-        border-radius: 18px !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    .stTextInput input:focus,
-    .stTextArea textarea:focus {
-        border: 1.5px solid #6C8B74 !important;
-        box-shadow: 0 0 0 2px rgba(108, 139, 116, 0.12) !important;
-        outline: none !important;
-    }
-
     div[data-testid="stExpander"] {
         border: 1px solid var(--border);
         border-radius: 18px;
@@ -388,38 +361,6 @@ st.markdown(
             max-width: 100%;
         }
     }
-    /* Text input 바깥 검은 테두리 제거 */
-    [data-testid="stTextInput"] [data-baseweb="input"] {
-        border: 1px solid #DCE8DE !important;
-        box-shadow: none !important;
-        background: #FFFFFF !important;
-        border-radius: 18px !important;
-    }
-
-    /* Textarea 바깥 검은 테두리 제거 */
-    [data-testid="stTextArea"] [data-baseweb="textarea"] {
-        border: 1px solid #DCE8DE !important;
-        box-shadow: none !important;
-        background: #FFFFFF !important;
-        border-radius: 18px !important;
-    }
-
-    /* 안쪽 input/textarea는 테두리 제거 */
-    [data-testid="stTextInput"] input,
-    [data-testid="stTextArea"] textarea {
-        border: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-        background: transparent !important;
-        color: #294332 !important;
-    }
-
-    /* 포커스 시에도 검정색 그림자 방지 */
-    [data-testid="stTextInput"] [data-baseweb="input"]:focus-within,
-    [data-testid="stTextArea"] [data-baseweb="textarea"]:focus-within {
-        border: 1.5px solid #6C8B74 !important;
-        box-shadow: 0 0 0 3px rgba(108, 139, 116, 0.12) !important;
-    }
 
     /* Yoga expander 전체 박스 */
     [data-testid="stExpander"] {
@@ -460,6 +401,21 @@ st.markdown(
         background-color: #FFFFFF !important;
         color: #294332 !important;
     }
+
+    /* 입력창 글자와 모서리만 조정 */
+    [data-testid="stTextInput"] input,
+    [data-testid="stTextArea"] textarea {
+        color: #294332 !important;
+        -webkit-text-fill-color: #294332 !important;
+        border-radius: 18px !important;
+    }
+
+    [data-testid="stTextInput"] input::placeholder,
+    [data-testid="stTextArea"] textarea::placeholder {
+        color: #9AA99F !important;
+        -webkit-text-fill-color: #9AA99F !important;
+        opacity: 1 !important;
+    }   
     </style>
     """,
     unsafe_allow_html=True,

@@ -127,8 +127,7 @@ def breathing_agent(
 
         모든 내용은 반드시 사용자가 입력한 언어를 기준으로 작성한다.
 
-        [사용자 입력]
-        {state["current_feeling"]}
+        [사용자 입력 언어]: {state["current_feeling"]}
 
 
         Flow Guide는 이미 사용자의 상태를 분석하고
