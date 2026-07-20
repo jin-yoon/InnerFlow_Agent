@@ -153,7 +153,7 @@ st.markdown(
         overflow: hidden;
         max-width: 900px;
         min-height: 235px;
-        margin: 2.1rem auto 1.25rem;
+        margin: 1.2rem auto 1.25rem;
         padding: 2.1rem 2.3rem;
         border: 1px solid #dce7d9;
         border-radius: 28px;
@@ -388,6 +388,39 @@ st.markdown(
             max-width: 100%;
         }
     }
+    /* Text input 바깥 검은 테두리 제거 */
+    [data-testid="stTextInput"] [data-baseweb="input"] {
+        border: 1px solid #DCE8DE !important;
+        box-shadow: none !important;
+        background: #FFFFFF !important;
+        border-radius: 18px !important;
+    }
+
+    /* Textarea 바깥 검은 테두리 제거 */
+    [data-testid="stTextArea"] [data-baseweb="textarea"] {
+        border: 1px solid #DCE8DE !important;
+        box-shadow: none !important;
+        background: #FFFFFF !important;
+        border-radius: 18px !important;
+    }
+
+    /* 안쪽 input/textarea는 테두리 제거 */
+    [data-testid="stTextInput"] input,
+    [data-testid="stTextArea"] textarea {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+        color: #294332 !important;
+    }
+
+    /* 포커스 시에도 검정색 그림자 방지 */
+    [data-testid="stTextInput"] [data-baseweb="input"]:focus-within,
+    [data-testid="stTextArea"] [data-baseweb="textarea"]:focus-within {
+        border: 1.5px solid #6C8B74 !important;
+        box-shadow: 0 0 0 3px rgba(108, 139, 116, 0.12) !important;
+    }
+
     /* Yoga expander 전체 박스 */
     [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
@@ -776,8 +809,7 @@ def render_activity_selection_page():
         recommended_reason = "지금의 상태에 맞는 활동을 편안하게 선택해보세요."
 
     st.markdown(
-        f"""<div class="center-page" style="padding-top: 2rem;">
-<div class="page-subtitle">당신의 상태를 바탕으로 추천한 활동이에요.</div>
+        f"""<div>
 <div class="recommendation-card">
 <div class="recommendation-label">✦ 오늘의 추천</div>
 <div class="recommendation-title">{recommended_activity}</div>
