@@ -100,7 +100,6 @@ graph_builder.add_conditional_edges(
     },
 )
 
-
 graph_builder.add_edge("yoga", "yoga_tool_caller")
 graph_builder.add_edge("yoga_tool_caller", "yoga_image_tool")
 graph_builder.add_edge("yoga_image_tool", "save_yoga_image")

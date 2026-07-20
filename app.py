@@ -38,6 +38,36 @@ st.markdown(
 
     html,
     body,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"] {
+        background-color: #FAFCFA !important;
+        color: #294332 !important;
+    }
+
+    [data-testid="stWidgetLabel"] p,
+    .stRadio label,
+    .stTextInput label,
+    .stTextArea label {
+        color: #52665A !important;
+    }
+
+    .stTextInput input,
+    .stTextArea textarea {
+        color: #294332 !important;
+        background-color: #FFFFFF !important;
+        -webkit-text-fill-color: #294332 !important;
+    }
+
+    .stTextInput input::placeholder,
+    .stTextArea textarea::placeholder {
+        color: #9AA99F !important;
+        -webkit-text-fill-color: #9AA99F !important;
+        opacity: 1 !important;
+    }
+
+    .stRadio div[role="radiogroup"] label p {
+        color: #52665A !important;
+    }
     [class*="css"] {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
