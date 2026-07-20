@@ -1,7 +1,7 @@
 import streamlit as st
-
 from main import graph
-
+import uuid
+from langgraph.types import Command
 
 # -------------------------
 # Session State
@@ -10,6 +10,10 @@ from main import graph
 if "result" not in st.session_state:
     st.session_state.result = None
 
+if "thread_id" not in st.session_state:
+    st.session_state.thread_id = str(uuid.uuid4())
+
+config = {"configurable": {"thread_id": (st.session_state.thread_id)}}
 
 # -------------------------
 # Page
@@ -54,15 +58,113 @@ feeling = st.text_area(
 # -------------------------
 
 if st.button("Begin Today's InnerFlow"):
+
     with st.spinner("Listening to your flow..."):
+
         st.session_state.result = graph.invoke(
             {
                 "user_name": name,
                 "session_type": session_type,
                 "current_feeling": feeling,
-            }
+                "selected_activity": None,
+            },
+            config=config,
         )
 
+# -------------------------
+# Guardrail
+# -------------------------
+
+if st.session_state.result:
+
+    result = st.session_state.result
+
+    # Guardrail
+    if not result.get("is_relevant", True):
+        st.info(
+            result.get(
+                "guardrail_message",
+                "InnerFlow와 관련된 이야기를 들려주세요. 🌿",
+            )
+        )
+
+        st.stop()
+
+    st.divider()
+
+    # Flow Guide 결과
+    if result.get("awareness"):
+        st.subheader("🌿 Awareness")
+        st.write(result["awareness"])
+
+    if result.get("reflection_message"):
+        st.write("")
+        st.write(result["reflection_message"])
+
+    if result.get("mini_practice"):
+        st.write("")
+        st.info(result["mini_practice"])
+
+    st.divider()
+
+    # Activity recommendations
+    activity_plans = result.get(
+        "activity_plans",
+        [],
+    )
+
+    if activity_plans:
+        st.subheader(f"Recommended Activities : {activity_plans[0].activity}")
+        st.write(activity_plans[0].reason)
+        st.write(
+            "하지만 오늘 자신에게 다른 활동이 필요하다고 느껴진다면, 언제든 선택할 수 있다는 것을 잊지 마세요✨"
+        )
+
+    # -------------------------
+    # Interrupt
+    # -------------------------
+
+    if result.get("__interrupt__"):
+
+        st.subheader("Choose Your InnerFlow")
+
+        col1, col2, col3 = st.columns(3)
+
+        selected_activity = None
+
+        with col1:
+            if st.button(
+                "🧘 Yoga",
+                use_container_width=True,
+            ):
+                selected_activity = "yoga"
+
+        with col2:
+            if st.button(
+                "🌬️ Breathing",
+                use_container_width=True,
+            ):
+                selected_activity = "breathing"
+
+        with col3:
+            if st.button(
+                "🌿 Meditation",
+                use_container_width=True,
+            ):
+                selected_activity = "meditation"
+
+        if selected_activity:
+
+            with st.spinner("Preparing your practice..."):
+
+                st.session_state.result = graph.invoke(
+                    Command(resume=(selected_activity)),
+                    config=config,
+                )
+
+            st.rerun()
+
+        st.stop()
 
 # -------------------------
 # Display Result
@@ -71,28 +173,7 @@ if st.button("Begin Today's InnerFlow"):
 result = st.session_state.result
 
 if result:
-
-    st.divider()
-
-    st.subheader("🌿 Awareness")
-    st.write(result["awareness"])
-
-    st.subheader("✨ Reflection")
-    st.write(result["reflection_message"])
-
-    st.subheader("🌬 Mini Practice")
-    st.write(result["mini_practice"])
-
-    st.divider()
-
-    st.subheader(f"Recommended Activity : " f"{result['selected_activity'].title()}")
-
-    selected = next(
-        p for p in result["activity_plans"] if p.activity == result["selected_activity"]
-    )
-
-    st.write(selected.reason)
-
+    st.info(f"Selected Activity : {result['selected_activity'].title()}")
     st.divider()
 
     st.subheader("Activity")
@@ -164,7 +245,7 @@ if result:
 
                 st.warning("Meditation audio was not generated.")
 
-            st.write(meditation_output.script)
+            # st.write(meditation_output.script)
 
             st.divider()
 

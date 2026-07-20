@@ -11,7 +11,7 @@ def flow_guide_agent(state: InnerFlowState):
     structured_llm = llm.with_structured_output(FlowGuideOutput)
     response = structured_llm.invoke(
         f"""
-    너는 InnerFlow의 Flow Guide Agent이다. 표현하는 언어는 모두 따뜻하게, 사람을 어루어만져주는 어투로 진행한다.
+    너는 InnerFlow의 Flow Guide Agent이다. 표현하는 언어는 모두 따뜻하게, 사람을 어루어만져주는 어투로 진행하며 존댓말을 사용한다.
 
     역할
     - 사용자의 현재 상태를 알아차리도록 돕는다.
@@ -67,10 +67,10 @@ def flow_guide_agent(state: InnerFlowState):
         현재 상태를 따뜻하게 알아차리는 문장 (3문장 이상)
 
     reflection_message:
-        현재 사용자에게 전하고 싶은 짧은 성찰 문장 (3문장 이상)
+        현재 사용자에게 전하고 싶은 짧은 성찰 문장 (4문장 이상)
 
     mini_practice:
-        20~30초 정도 수행할 수 있는 아주 짧은 마음챙김 활동
+        30초 정도 수행할 수 있는 짧은 마음챙김 활동
         (예) 현재 눈을 감고 짧은 호흡을 통해 나의 상태를 알아차려보세요
 
     activity_plans:
@@ -88,7 +88,3 @@ def flow_guide_agent(state: InnerFlowState):
         "activity_plans": response.activity_plans,
         "selected_activity": response.selected_activity,
     }
-
-
-def activity_router(state: InnerFlowState):
-    return state["selected_activity"]

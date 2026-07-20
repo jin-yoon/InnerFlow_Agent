@@ -7,6 +7,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+# =========================================================
+# Guardrail
+# =========================================================
+class GuardrailOutput(BaseModel):
+    is_relevant: bool
+    response: str
+
+
+# =========================================================
+# FlowGuide
+# =========================================================
 class ActivityGuidance(BaseModel):
     intention: str
 
@@ -108,7 +119,7 @@ class MeditationOutput(BaseModel):
         "piano",
         "rain",
         "forest",
-        "none",
+        # "none",
     ]
 
     closing_message: str
@@ -132,9 +143,9 @@ class BreathingOutput(BaseModel):
     ]
 
     duration_minutes: Literal[
+        1,
         3,
         5,
-        10,
     ]
 
     title: str
@@ -150,9 +161,9 @@ class BreathingOutput(BaseModel):
     exhale_seconds: int
 
     sound: Literal[
+        "birds",
+        "ocean",
         "singing_bowl",
-        "bell",
-        "none",
     ]
 
     closing_message: str
@@ -174,6 +185,10 @@ class InnerFlowState(MessagesState):
 
     current_feeling: str
 
+    # Guardrail
+    is_relevant: bool | None = None
+    guardrail_message: str | None = None
+
     # Flow Guide
     awareness: str
 
@@ -184,11 +199,7 @@ class InnerFlowState(MessagesState):
     activity_plans: list[ActivityPlan]
 
     # Activity Router
-    selected_activity: Literal[
-        "yoga",
-        "breathing",
-        "meditation",
-    ]
+    selected_activity: Literal["yoga", "breathing", "meditation"] | None
 
     # Activity Outputs
     yoga_output: YogaOutput | None = None
