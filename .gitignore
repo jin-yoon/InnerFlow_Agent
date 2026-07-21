@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# local file
+generated_audio/
+generated_images/
