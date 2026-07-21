@@ -766,7 +766,9 @@ def render_activity_selection_page():
     render_brand(show_home=True)
 
     result = st.session_state.result or {}
+
     activity_plans = result.get("activity_plans", [])
+    selected_activity = result.get("selected_activity")
 
     activity_labels = {
         "yoga": "요가",
@@ -774,25 +776,35 @@ def render_activity_selection_page():
         "meditation": "명상",
     }
 
-    if activity_plans:
-        top_plan = activity_plans[0]
+    selected_plan = next(
+        (plan for plan in activity_plans if plan.activity == selected_activity),
+        None,
+    )
+
+    if selected_plan:
         recommended_activity = activity_labels.get(
-            top_plan.activity,
-            top_plan.activity,
+            selected_plan.activity,
+            selected_plan.activity,
         )
-        recommended_reason = top_plan.reason
+        recommended_reason = selected_plan.reason
     else:
         recommended_activity = "활동"
         recommended_reason = "지금의 상태에 맞는 활동을 편안하게 선택해보세요."
 
     st.markdown(
-        f"""<div>
-<div class="recommendation-card">
-<div class="recommendation-label">✦ 오늘의 추천</div>
-<div class="recommendation-title">{recommended_activity}</div>
-<div class="recommendation-reason">{recommended_reason}</div>
-</div>
-</div>""",
+        f"""
+        <div>
+            <div class="recommendation-card">
+                <div class="recommendation-label">✦ 오늘의 추천</div>
+                <div class="recommendation-title">
+                    {recommended_activity}
+                </div>
+                <div class="recommendation-reason">
+                    {recommended_reason}
+                </div>
+            </div>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
