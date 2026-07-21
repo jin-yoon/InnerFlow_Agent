@@ -415,7 +415,28 @@ st.markdown(
         color: #9AA99F !important;
         -webkit-text-fill-color: #9AA99F !important;
         opacity: 1 !important;
-    }   
+    }
+
+    /* Text input 바깥 테두리 */
+    [data-testid="stTextInput"] div[data-baseweb="input"] > div {
+        border: 1px solid #D8E6DA !important;
+        border-radius: 18px !important;
+        box-shadow: none !important;
+        background-color: #FFFFFF !important;
+    }
+
+    /* Textarea 바깥 테두리 */
+    [data-testid="stTextArea"] div[data-baseweb="textarea"] > div {
+        border: 1px solid #D8E6DA !important;
+        border-radius: 18px !important;
+        box-shadow: none !important;
+        background-color: #FFFFFF !important;
+    }
+    [data-testid="stTextInput"] div[data-baseweb="input"] > div:focus-within,
+    [data-testid="stTextArea"] div[data-baseweb="textarea"] > div:focus-within {
+        border-color: #7FA087 !important;
+        box-shadow: 0 0 0 1px #7FA087 !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,

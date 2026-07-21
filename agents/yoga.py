@@ -6,7 +6,6 @@ from langchain_core.tools import tool
 import base64
 import uuid
 from pathlib import Path
-from langchain_core.messages import ToolMessage
 
 llm = init_chat_model("openai:gpt-4o")
 
@@ -17,8 +16,8 @@ def generate_yoga_image(
     pose_names: list[str],
 ) -> str:
     """
-    선택된 요가 스타일과 5개의 요가 자세를 기반으로
-    하나의 요가 안내 이미지를 생성한다.
+    선택된 요가 스타일과 5개의 요가 자세를 기반으로 하나의 요가 안내 이미지를 생성한다.
+
     """
 
     prompt = f"""
@@ -58,7 +57,7 @@ def generate_yoga_image(
     result = client.images.generate(
         model="gpt-image-1",
         prompt=prompt,
-        quality="high",
+        quality="medium",
         size="1024x1024",
     )
 
@@ -194,79 +193,25 @@ def yoga_tool_caller(
 
         return {"activity_result": "요가 정보를 생성하지 못했습니다."}
 
-    # -----------------------------------------------------
-    # LLM에게 Tool 사용 권한 부여
-    # -----------------------------------------------------
-
-    tool_llm = llm.bind_tools([generate_yoga_image])
-
-    # -----------------------------------------------------
-    # Tool Call 요청
-    # -----------------------------------------------------
-
-    response = tool_llm.invoke(
-        f"""
-        너는 InnerFlow의 요가 이미지 생성 담당자이다.
-
-        반드시 generate_yoga_image Tool을 호출해야 한다.
-
-        아래의 요가 프로그램을 기반으로
-        하나의 요가 안내 이미지를 생성한다.
-
-
-        [요가 스타일]
-
-        {yoga_output.yoga_class}
-
-
-        [요가 자세]
-
-        1. {yoga_output.poses[0].name}
-
-        2. {yoga_output.poses[1].name}
-
-        3. {yoga_output.poses[2].name}
-
-        4. {yoga_output.poses[3].name}
-
-        5. {yoga_output.poses[4].name}
-
-
-        generate_yoga_image Tool을 호출할 때
-
-        yoga_class에는 선택된 요가 스타일을 전달하고,
-
-        pose_names에는 위의 5개 자세 이름을
-        순서대로 전달한다.
-        """
+    image_path = generate_yoga_image.invoke(
+        {
+            "yoga_class": yoga_output.yoga_class,
+            "pose_names": [pose.name for pose in yoga_output.poses],
+        }
     )
 
-    # -----------------------------------------------------
-    # Tool Call이 생성되었는지 확인
-    # -----------------------------------------------------
-
-    if not response.tool_calls:
-
-        raise RuntimeError(
-            "Yoga Agent가 generate_yoga_image Tool을 호출하지 않았습니다."
-        )
-
-    # -----------------------------------------------------
-    # Tool Call을 MessagesState에 저장
-    #
-    # 이후 Graph가 ToolNode로 이동한다.
-    # -----------------------------------------------------
-
-    return {"messages": [response]}
+    return {
+        "yoga_image_path": image_path,
+    }
 
 
-def save_yoga_image(state: InnerFlowState):
+# def save_yoga_image(state: InnerFlowState):
 
-    last_message = state["messages"][-1]
+#     last_message = state["messages"][-1]
 
-    if not isinstance(last_message, ToolMessage):
-        raise ValueError("마지막 메시지가 ToolMessage가 아닙니다.")
+#     if not isinstance(last_message, ToolMessage):
+#         raise ValueError("마지막 메시지가 ToolMessage가 아닙니다.")
 
-    image_path = last_message.content
+#     image_path = last_message.content
 
-    return {"yoga_image_path": image_path}
+#     return {"yoga_image_path": image_path}
